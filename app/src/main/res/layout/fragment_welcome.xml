@@ -11,7 +11,7 @@
         <!-- TODO: Update blank fragment layout -->
 
         <TextView
-            android:id="@+id/textView"
+            android:id="@+id/tv_peminjaman_sound_system"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="32dp"
@@ -20,24 +20,24 @@
             android:text="@string/peminjaman_sound_system"
             android:textSize="18sp"
             android:textStyle="bold"
-            app:layout_constraintBottom_toTopOf="@+id/textView2"
+            app:layout_constraintBottom_toTopOf="@+id/tv_jurusuan_sistem_informasi"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
 
         <TextView
-            android:id="@+id/textView2"
+            android:id="@+id/tv_jurusuan_sistem_informasi"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="2dp"
             android:text="@string/jurusan_sistem_informasi"
             android:textSize="18sp"
             android:textStyle="bold"
-            app:layout_constraintBottom_toTopOf="@+id/textView3"
+            app:layout_constraintBottom_toTopOf="@+id/tv_uin_suska_riau"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent" />
 
         <TextView
-            android:id="@+id/textView3"
+            android:id="@+id/tv_uin_suska_riau"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginBottom="16dp"
