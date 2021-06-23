@@ -5,10 +5,12 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
 import id.learn.android.theinventory.R
 import id.learn.android.theinventory.databinding.FragmentDaftarBinding
 import id.learn.android.theinventory.databinding.FragmentWelcomeBinding
+import id.learn.android.theinventory.presentation.main.MainActivity
 
 class WelcomeFragment : Fragment() {
 
@@ -31,8 +33,21 @@ class WelcomeFragment : Fragment() {
         return view
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
+
+    override fun onResume() {
+        super.onResume()
+        (activity as AppCompatActivity).supportActionBar?.hide()
+        (activity as MainActivity).setBottomNavViewVisibility(false)
+    }
+
+    override fun onStop() {
+        super.onStop()
+        (activity as AppCompatActivity).supportActionBar?.show()
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
         _binding = null
     }
+
 }
