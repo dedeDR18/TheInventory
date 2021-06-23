@@ -2,4 +2,7 @@
     <string name="app_name">TheInventory</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="peminjaman_sound_system">Peminjaman Sound System</string>
+    <string name="jurusan_sistem_informasi">Jurusan Sistem Informasi</string>
+    <string name="uin_suska_riau">UIN SUSKA RIAU</string>
 </resources>

@@ -5,11 +5,17 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.NavController
 import id.learn.android.theinventory.R
+import id.learn.android.theinventory.databinding.FragmentDetailStatusPeminjamanBinding
+import id.learn.android.theinventory.databinding.FragmentWelcomeBinding
 
 
 class DetailStatusPeminjamanFragment : Fragment() {
 
+    private var _binding: FragmentDetailStatusPeminjamanBinding? = null
+    private val binding get() = _binding!!
+    private lateinit var navController: NavController
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -21,8 +27,14 @@ class DetailStatusPeminjamanFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_detail_status_peminjaman, container, false)
+        _binding = FragmentDetailStatusPeminjamanBinding.inflate(inflater, container, false)
+        val view = binding.root
+        return view
     }
 
+    override fun onDestroy() {
+        super.onDestroy()
+        _binding = null
+    }
 
 }

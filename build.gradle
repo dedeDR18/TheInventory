@@ -9,6 +9,7 @@ buildscript {
     ext.room_version = "2.3.0"
     ext.lifecycle_version = "2.3.1"
     ext.circle_image_version = "3.1.0"
+    ext.navigation_version = "2.3.5"
     repositories {
         google()
         mavenCentral()
