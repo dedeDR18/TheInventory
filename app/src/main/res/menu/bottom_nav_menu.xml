@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/homeFragment"
+        android:icon="@drawable/ic_home"
+        android:title="Home"
+        />
+
+    <item
+        android:id="@+id/dataBarangFragment"
+        android:icon="@drawable/ic_barang"
+        android:title="Sound"
+        />
+
+    <item
+        android:id="@+id/peminjamanFragment"
+        android:icon="@drawable/ic_peminjaman"
+        android:title="Peminjaman"
+        />
+
+    <item
+        android:id="@+id/historyFragment"
+        android:icon="@drawable/ic_history"
+        android:title="History"
+        />
+</menu>
