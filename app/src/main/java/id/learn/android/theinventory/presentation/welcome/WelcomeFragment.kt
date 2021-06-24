@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
+import androidx.navigation.Navigation
 import id.learn.android.theinventory.R
 import id.learn.android.theinventory.databinding.FragmentDaftarBinding
 import id.learn.android.theinventory.databinding.FragmentWelcomeBinding
@@ -33,6 +34,11 @@ class WelcomeFragment : Fragment() {
         return view
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        navController = Navigation.findNavController(view)
+    }
+
 
     override fun onResume() {
         super.onResume()
@@ -49,5 +55,7 @@ class WelcomeFragment : Fragment() {
         super.onDestroyView()
         _binding = null
     }
+
+    //lanjutin di fragment lain
 
 }
