@@ -8,7 +8,7 @@
     <fragment
         android:id="@+id/welcomeFragment"
         android:name="id.learn.android.theinventory.presentation.welcome.WelcomeFragment"
-        android:label="WelcomeFragment"
+        android:label="Welcome"
         tools:layout="@layout/fragment_welcome"
         >
         <action
@@ -21,7 +21,7 @@
     <fragment
         android:id="@+id/daftarFragment"
         android:name="id.learn.android.theinventory.presentation.daftar.DaftarFragment"
-        android:label="DaftarFragment"
+        android:label="Daftar"
         tools:layout="@layout/fragment_daftar"
         >
         <action
@@ -31,7 +31,7 @@
     <fragment
         android:id="@+id/loginFragment"
         android:name="id.learn.android.theinventory.presentation.login.LoginFragment"
-        android:label="LoginFragment"
+        android:label="Masuk"
         tools:layout="@layout/fragment_login"
         >
         <action
@@ -41,18 +41,18 @@
     <fragment
         android:id="@+id/homeFragment"
         android:name="id.learn.android.theinventory.presentation.home.HomeFragment"
-        android:label="HomeFragment"
+        android:label="Home"
         tools:layout="@layout/fragment_home"
         />
     <fragment
         android:id="@+id/dataBarangFragment"
         android:name="id.learn.android.theinventory.presentation.databarang.DataBarangFragment"
-        android:label="DataBarangFragment"
+        android:label="Data Barang"
         tools:layout="@layout/fragment_data_barang"/>
     <fragment
         android:id="@+id/peminjamanFragment"
         android:name="id.learn.android.theinventory.presentation.peminjaman.PeminjamanFragment"
-        android:label="PeminjamanFragment"
+        android:label="Peminjaman"
         tools:layout="@layout/fragment_peminjaman"
         >
         <action
@@ -65,13 +65,13 @@
     <fragment
         android:id="@+id/historyFragment"
         android:name="id.learn.android.theinventory.presentation.history.HistoryFragment"
-        android:label="HistoryFragment"
+        android:label="History"
         tools:layout="@layout/fragment_history"
         />
     <fragment
         android:id="@+id/isiDataPeminjamanFragment"
         android:name="id.learn.android.theinventory.presentation.peminjaman.detail.IsiDataPeminjamanFragment"
-        android:label="IsiDataPeminjamanFragment"
+        android:label="Isi Data Peminjaman"
         tools:layout="@layout/fragment_isi_data_peminjaman"
         >
         <action
@@ -81,13 +81,13 @@
     <fragment
         android:id="@+id/listBarangFragment"
         android:name="id.learn.android.theinventory.presentation.peminjaman.pilihbarang.ListBarangFragment"
-        android:label="ListBarangFragment"
+        android:label="List Barang"
         tools:layout="@layout/fragment_list_barang"
         />
     <fragment
         android:id="@+id/listStatusPeminjamanFragment"
         android:name="id.learn.android.theinventory.presentation.peminjaman.status.listpinjaman.ListStatusPeminjamanFragment"
-        android:label="ListStatusPeminjamanFragment"
+        android:label="List Status Peminjaman"
         tools:layout="@layout/fragment_list_status_peminjaman"
         >
         <action
@@ -97,13 +97,13 @@
     <fragment
         android:id="@+id/detailStatusPeminjamanFragment"
         android:name="id.learn.android.theinventory.presentation.peminjaman.status.detailpinjaman.DetailStatusPeminjamanFragment"
-        android:label="DetailStatusPeminjamanFragment"
+        android:label="Detail Status Peminjaman"
         tools:layout="@layout/fragment_detail_status_peminjaman"
         />
     <fragment
         android:id="@+id/profileFragment"
         android:name="id.learn.android.theinventory.presentation.profile.ProfileFragment"
-        android:label="ProfileFragment"
+        android:label="Profile Saya"
         tools:layout="@layout/fragment_profile"
         >
         <action
@@ -113,7 +113,7 @@
     <fragment
         android:id="@+id/ubahPassFragment"
         android:name="id.learn.android.theinventory.presentation.ubahpassword.UbahPassFragment"
-        android:label="UbahPassFragment"
+        android:label="Ubah Password"
         tools:layout="@layout/fragment_ubah_pass"
         />
 </navigation>

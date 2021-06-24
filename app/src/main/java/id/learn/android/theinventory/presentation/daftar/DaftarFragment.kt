@@ -6,10 +6,12 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.NavController
+import androidx.navigation.Navigation
 import id.learn.android.theinventory.R
 import id.learn.android.theinventory.databinding.FragmentDaftarBinding
 import id.learn.android.theinventory.databinding.FragmentIsiDataPeminjamanBinding
 import id.learn.android.theinventory.databinding.FragmentWelcomeBinding
+import org.koin.android.ext.android.bind
 
 class DaftarFragment : Fragment() {
 
@@ -30,6 +32,15 @@ class DaftarFragment : Fragment() {
         _binding = FragmentDaftarBinding.inflate(inflater, container, false)
         val view = binding.root
         return view
+
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        navController = Navigation.findNavController(view)
+        binding.btnDaftar.setOnClickListener {
+            navController.navigate(R.id.action_daftarFragment_to_homeFragment)
+        }
 
     }
 

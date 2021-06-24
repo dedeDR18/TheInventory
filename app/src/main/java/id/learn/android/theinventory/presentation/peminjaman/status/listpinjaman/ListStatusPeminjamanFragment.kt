@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.NavController
+import androidx.navigation.Navigation
 import id.learn.android.theinventory.R
 import id.learn.android.theinventory.databinding.FragmentListStatusPeminjamanBinding
 import id.learn.android.theinventory.databinding.FragmentWelcomeBinding
@@ -31,6 +32,15 @@ class ListStatusPeminjamanFragment : Fragment() {
         val view = binding.root
         return view
 
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        navController = Navigation.findNavController(view)
+
+        binding.btnToDetail.setOnClickListener {
+            navController.navigate(R.id.action_listStatusPeminjamanFragment_to_detailStatusPeminjamanFragment)
+        }
     }
 
     override fun onDestroy() {

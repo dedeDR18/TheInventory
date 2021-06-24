@@ -5,11 +5,13 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
 import id.learn.android.theinventory.R
 import id.learn.android.theinventory.databinding.FragmentHomeBinding
 import id.learn.android.theinventory.databinding.FragmentIsiDataPeminjamanBinding
 import id.learn.android.theinventory.databinding.FragmentWelcomeBinding
+import id.learn.android.theinventory.presentation.main.MainActivity
 
 class HomeFragment : Fragment() {
 
@@ -31,6 +33,17 @@ class HomeFragment : Fragment() {
         val view = binding.root
         return view
 
+    }
+
+    override fun onResume() {
+        super.onResume()
+        (activity as AppCompatActivity).supportActionBar?.show()
+        (activity as MainActivity).setBottomNavViewVisibility(true)
+    }
+
+    override fun onStop() {
+        super.onStop()
+        (activity as AppCompatActivity).supportActionBar?.show()
     }
 
     override fun onDestroy() {

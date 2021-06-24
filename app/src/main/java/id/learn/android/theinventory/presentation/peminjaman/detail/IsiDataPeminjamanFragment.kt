@@ -5,7 +5,9 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.navigation.NavController
+import androidx.navigation.Navigation
 import id.learn.android.theinventory.R
 import id.learn.android.theinventory.databinding.FragmentIsiDataPeminjamanBinding
 import id.learn.android.theinventory.databinding.FragmentWelcomeBinding
@@ -32,6 +34,23 @@ class IsiDataPeminjamanFragment : Fragment() {
         val view = binding.root
         return view
 
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        navController = Navigation.findNavController(view)
+
+        binding.btnPilihBarang.setOnClickListener {
+            navController.navigate(R.id.action_isiDataPeminjamanFragment_to_listBarangFragment)
+        }
+
+        binding.btnKirim.setOnClickListener {
+            navController.popBackStack()
+        }
+
+        binding.btnReset.setOnClickListener {
+            Toast.makeText(requireActivity(), "Reset", Toast.LENGTH_SHORT).show()
+        }
     }
 
     override fun onDestroy() {

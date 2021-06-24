@@ -7,6 +7,7 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
+import androidx.navigation.Navigation
 import id.learn.android.theinventory.R
 import id.learn.android.theinventory.databinding.FragmentIsiDataPeminjamanBinding
 import id.learn.android.theinventory.databinding.FragmentLoginBinding
@@ -34,6 +35,15 @@ class LoginFragment : Fragment() {
         val view = binding.root
         return view
 
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        navController = Navigation.findNavController(view)
+
+        binding.btnLogin.setOnClickListener {
+            navController.navigate(R.id.action_loginFragment_to_homeFragment)
+        }
     }
 
     override fun onResume() {

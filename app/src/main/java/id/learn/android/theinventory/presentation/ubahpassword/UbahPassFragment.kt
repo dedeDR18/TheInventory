@@ -6,6 +6,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.NavController
+import androidx.navigation.Navigation
 import id.learn.android.theinventory.R
 import id.learn.android.theinventory.databinding.FragmentUbahPassBinding
 import id.learn.android.theinventory.databinding.FragmentWelcomeBinding
@@ -32,8 +33,19 @@ class UbahPassFragment : Fragment() {
         return view
     }
 
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        navController = Navigation.findNavController(view)
+
+        binding.btnSimpan.setOnClickListener {
+            navController.popBackStack()
+        }
+    }
+
     override fun onDestroy() {
         super.onDestroy()
         _binding = null
     }
+
+
 }

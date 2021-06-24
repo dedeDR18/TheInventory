@@ -28,10 +28,10 @@ class MainActivity : AppCompatActivity() {
 
         setSupportActionBar(binding.toolbar)
 
-        changeToolbarTitle()
-
         //init navController
         navController = findNavController(R.id.nav_host_fragment)
+
+        changeToolbarTitle()
 
         appBarConfiguration = AppBarConfiguration(setOf(R.id.homeFragment, R.id.dataBarangFragment, R.id.peminjamanFragment, R.id.historyFragment))
         setupActionBarWithNavController(navController, appBarConfiguration)
