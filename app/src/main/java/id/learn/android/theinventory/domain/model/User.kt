@@ -11,4 +11,5 @@ data class User(
     val kelas: String,
     val noHp: String,
     val username:String,
+    var isNew:Boolean = false
 ) : Parcelable

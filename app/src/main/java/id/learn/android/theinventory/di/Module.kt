@@ -1,26 +1,49 @@
 package id.learn.android.theinventory.di
 
-import id.learn.android.theinventory.data.remote.network.ApiService
-import okhttp3.OkHttpClient
-import okhttp3.logging.HttpLoggingInterceptor
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
-import java.util.concurrent.TimeUnit
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.FirebaseDatabase
+import id.learn.android.theinventory.data.firebase.auth.AuthRepository
+import id.learn.android.theinventory.domain.repository.IAuthRepository
+import id.learn.android.theinventory.domain.usecase.Interactor
+import id.learn.android.theinventory.domain.usecase.Usecase
+import id.learn.android.theinventory.presentation.daftar.DaftarViewModel
+import org.koin.android.viewmodel.dsl.viewModel
+import org.koin.dsl.module
 
 
-private fun createOkHttpClient(): OkHttpClient {
-    return OkHttpClient.Builder()
-        .addInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
-        .connectTimeout(120, TimeUnit.SECONDS)
-        .readTimeout(120, TimeUnit.SECONDS)
-        .build()
+val repositoryModule = module {
+    single<IAuthRepository> { AuthRepository(provideAuthInstance(), provideRealtimeDbInstance()) }
 }
 
-private fun createRetrofit(client: OkHttpClient): ApiService {
-    return Retrofit.Builder()
-        .baseUrl("BASE_URL")
-        .addConverterFactory(GsonConverterFactory.create())
-        .client(client)
-        .build()
-        .create(ApiService::class.java)
+val usecaseModule = module {
+    factory<Usecase> { Interactor(get()) }
 }
+
+val viewModelModule = module {
+    viewModel { DaftarViewModel(get()) }
+}
+
+private fun provideAuthInstance(): FirebaseAuth {
+    return FirebaseAuth.getInstance()
+}
+
+private fun provideRealtimeDbInstance(): FirebaseDatabase {
+    return FirebaseDatabase.getInstance()
+}
+
+//private fun createOkHttpClient(): OkHttpClient {
+//    return OkHttpClient.Builder()
+//        .addInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
+//        .connectTimeout(120, TimeUnit.SECONDS)
+//        .readTimeout(120, TimeUnit.SECONDS)
+//        .build()
+//}
+//
+//private fun createRetrofit(client: OkHttpClient): ApiService {
+//    return Retrofit.Builder()
+//        .baseUrl("BASE_URL")
+//        .addConverterFactory(GsonConverterFactory.create())
+//        .client(client)
+//        .build()
+//        .create(ApiService::class.java)
+//}
