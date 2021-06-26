@@ -9,7 +9,6 @@ data class User(
     val nama:String,
     val nim:Int,
     val kelas: String,
-    val noHp: Int,
+    val noHp: String,
     val username:String,
-    val password:String
 ) : Parcelable
