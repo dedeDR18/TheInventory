@@ -9,4 +9,5 @@ import kotlinx.coroutines.flow.Flow
 
 interface IAuthRepository {
     fun createUser(email: String, password: String): LiveData<User>
+    fun login(email: String, password: String): LiveData<User>
 }

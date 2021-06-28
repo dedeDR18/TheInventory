@@ -21,7 +21,7 @@
     <fragment
         android:id="@+id/daftarFragment"
         android:name="id.learn.android.theinventory.presentation.daftar.DaftarFragment"
-        android:label="Daftar"
+        android:label="Buat Akun"
         tools:layout="@layout/fragment_daftar"
         >
         <action
