@@ -1,8 +1,12 @@
 package id.learn.android.theinventory.presentation.daftar
 
 import android.os.Bundle
+import android.text.Editable
+import android.text.TextWatcher
+import android.util.Log
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
+import android.view.Menu
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
@@ -27,6 +31,14 @@ class DaftarFragment : Fragment() {
     private val vm:DaftarViewModel by viewModel()
     private var email = "d@gmail.com"
     private var pass = "dededede"
+    private var isEmailValid = false
+    private var isPasswordValid = false
+    private var isNamaValid = false
+    private var isNimValid = false
+    private var isKelasValid = false
+    private var isNoHpValid = true
+
+
 
 
 
@@ -36,7 +48,7 @@ class DaftarFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
+        setHasOptionsMenu(true)
     }
 
     override fun onCreateView(
@@ -59,51 +71,208 @@ class DaftarFragment : Fragment() {
         mAuth = FirebaseAuth.getInstance()
         realtimeDb = FirebaseDatabase.getInstance()
 
+        formValidation()
 
 
         binding.btnDaftar.setOnClickListener {
-            //navController.navigate(R.id.action_daftarFragment_to_homeFragment)
+
+            val email = binding.otfEmail.editText!!.text.toString()
+            val password = binding.otfPassword.editText!!.text.toString()
+            val nama = binding.otfFullname.editText!!.text.toString()
+            val kelas = binding.otfKelas.editText!!.text.toString()
+            val nim = binding.otfNim.editText!!.text.toString().toInt()
+            val noHp = if(binding.otfNohp.editText!!.text.toString().isEmpty()) "-" else binding.otfNohp.editText!!.text.toString()
             binding.pbDaftar.visibility = View.VISIBLE
-            vm.createUser(email,pass)
+            clearFocusTextField()
+            vm.createUser(email,password,nama,nim,kelas,noHp)
             vm.createdUserLiveData!!.observe(viewLifecycleOwner, Observer { user ->
-                if(user.isNew){
+                if(user.role.isNotEmpty()){
                     binding.pbDaftar.visibility = View.GONE
                     Toast.makeText(requireActivity(), "berhasil", Toast.LENGTH_SHORT).show()
+                    navController.navigate(R.id.action_daftarFragment_to_loginFragment)
                 } else {
                     Toast.makeText(requireActivity(), "gagal", Toast.LENGTH_SHORT).show()
                     binding.pbDaftar.visibility = View.GONE
                 }
             })
 
-//            mAuth.createUserWithEmailAndPassword(email, pass)
-//                .addOnCompleteListener { task ->
-//                    if (task.isSuccessful){
-//                        val user = User(
-//                            id = 1,
-//                            nama = "Dede Dari Rahamadi",
-//                            nim = 10114183,
-//                            noHp = "089606185656",
-//                            kelas = "mawar 1",
-//                            username = "ddrddr"
-//                        )
-//
-//                        realtimeDb.getReference("Users")
-//                            .child(FirebaseAuth.getInstance().currentUser!!.uid)
-//                            .setValue(user)
-//                            .addOnCompleteListener { task ->
-//                                if (task.isSuccessful){
-//                                    binding.pbDaftar.visibility = View.GONE
-//                                    Toast.makeText(requireActivity(), "berhasil", Toast.LENGTH_SHORT).show()
-//                                } else {
-//                                    binding.pbDaftar.visibility = View.GONE
-//                                    Toast.makeText(requireActivity(), "Gagal", Toast.LENGTH_SHORT).show()
-//                                }
-//                            }
-//                    }
-//                }
         }
 
 
+    }
+
+    private fun enableButtonLogin() {
+        binding.btnDaftar.isEnabled = isEmailValid && isPasswordValid && isNamaValid && isNimValid && isNoHpValid && isKelasValid
+    }
+
+    private fun clearFocusTextField(){
+        binding.otfEmail.clearFocus()
+        binding.otfPassword.clearFocus()
+        binding.otfFullname.clearFocus()
+        binding.otfNim.clearFocus()
+        binding.otfKelas.clearFocus()
+        binding.otfNohp.clearFocus()
+    }
+
+
+    private fun formValidation(){
+        binding.btnDaftar.isEnabled = false
+        //name
+        binding.otfFullname.editText!!.addTextChangedListener(object : TextWatcher{
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+
+            }
+
+            override fun onTextChanged(nama: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                if (nama!!.length > 50){
+                    isNamaValid = false
+                    binding.otfFullname.error = "Nama tidak boleh lebih dari 50 karakter"
+                    enableButtonLogin()
+                } else {
+                    isNamaValid = true
+                    binding.otfFullname.error = null
+                    binding.otfFullname.isErrorEnabled = false
+                    enableButtonLogin()
+                }
+            }
+
+            override fun afterTextChanged(p0: Editable?) {
+
+            }
+
+        })
+
+        //nim
+        binding.otfNim.editText!!.addTextChangedListener(object : TextWatcher{
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+
+            }
+
+            override fun onTextChanged(nim: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                if (nim!!.length > 8){
+                    isNimValid = false
+                    binding.otfNim.error = "Periksa kembali NIM anda"
+                    enableButtonLogin()
+                } else {
+                    isNimValid = true
+                    binding.otfNim.error = null
+                    binding.otfNim.isErrorEnabled = false
+                    enableButtonLogin()
+                }
+            }
+
+            override fun afterTextChanged(p0: Editable?) {
+
+            }
+
+        })
+
+        //kelas
+        binding.otfKelas.editText!!.addTextChangedListener(object : TextWatcher{
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+
+            }
+
+            override fun onTextChanged(kelas: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                if (kelas!!.length > 10){
+                    isKelasValid = false
+                    binding.otfKelas.error = "Periksa kembali kelas anda"
+                    enableButtonLogin()
+                } else {
+                    isKelasValid = true
+                    binding.otfKelas.error = null
+                    binding.otfKelas.isErrorEnabled = false
+                    enableButtonLogin()
+                }
+            }
+
+            override fun afterTextChanged(p0: Editable?) {
+
+            }
+
+        })
+
+        //nohp
+        binding.otfNohp.editText!!.addTextChangedListener(object : TextWatcher{
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+
+            }
+
+            override fun onTextChanged(nohp: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                if (nohp!!.length > 14){
+                    isNoHpValid = true
+                    binding.otfNohp.error = "Periksa kembali no Hp anda"
+                    enableButtonLogin()
+                } else {
+                    isNoHpValid = true
+                    binding.otfNohp.error = null
+                    binding.otfNohp.isErrorEnabled = false
+                    enableButtonLogin()
+                }
+            }
+
+            override fun afterTextChanged(p0: Editable?) {
+
+            }
+
+        })
+
+        //email
+        binding.otfEmail.editText!!.addTextChangedListener(object : TextWatcher{
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+
+            }
+
+            override fun onTextChanged(email: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                if (android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()) {
+                    isEmailValid = true
+                    binding.otfEmail.error = null
+                    binding.otfEmail.isErrorEnabled = false
+                    enableButtonLogin()
+
+                } else {
+                    isEmailValid = false
+                    binding.otfEmail.error = "Periksa format email"
+                    enableButtonLogin()
+                }
+            }
+
+            override fun afterTextChanged(p0: Editable?) {
+
+            }
+
+        })
+
+        //password
+        binding.otfPassword.editText!!.addTextChangedListener(object : TextWatcher{
+            override fun beforeTextChanged(p0: CharSequence?, p1: Int, p2: Int, p3: Int) {
+
+            }
+
+            override fun onTextChanged(password: CharSequence?, p1: Int, p2: Int, p3: Int) {
+                if (password!!.length < 6) {
+                    isPasswordValid = false
+                    binding.otfPassword.error = "Password tidak boleh kurang dari 6 karakter"
+                    enableButtonLogin()
+                } else {
+                    binding.otfPassword.error = null
+                    isPasswordValid = true
+                    binding.otfPassword.isErrorEnabled = false
+                    enableButtonLogin()
+                }
+            }
+
+            override fun afterTextChanged(p0: Editable?) {
+
+            }
+
+        })
+
+    }
+
+    override fun onPrepareOptionsMenu(menu: Menu) {
+        super.onPrepareOptionsMenu(menu)
+        menu.clear()
     }
 
     override fun onDestroy() {

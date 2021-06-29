@@ -12,17 +12,16 @@ import id.learn.android.theinventory.utils.HelperClass.logErrorMessage
 
 class AuthRepository(private val mAuth: FirebaseAuth, val realtimeDb: FirebaseDatabase) :
     IAuthRepository {
-    override fun createUser(email: String, password: String): LiveData<User> {
+    override fun createUser(email: String, password: String, nama:String, nim:Int, kelas: String, noHp:String): LiveData<User> {
         val newUserMutableLiveData = MutableLiveData<User>()
         mAuth.createUserWithEmailAndPassword(email, password)
             .addOnCompleteListener { taskAuth ->
                 if (taskAuth.isSuccessful) {
                     val user = User(
-                        nama = "Dede Dari Rahamadi",
-                        nim = 10114183,
-                        noHp = "089606185656",
-                        kelas = "mawar 1",
-                        username = "ddrddr",
+                        nama = nama,
+                        nim = nim,
+                        noHp = noHp,
+                        kelas = kelas,
                         role = "Mahasiswa"
                     )
 
@@ -31,7 +30,6 @@ class AuthRepository(private val mAuth: FirebaseAuth, val realtimeDb: FirebaseDa
                         .setValue(user)
                         .addOnCompleteListener { task ->
                             if (task.isSuccessful) {
-                                user.isNew = true
                                 newUserMutableLiveData.value = user
                             } else {
                                 logErrorMessage(task.exception!!.message.toString())
@@ -54,10 +52,8 @@ class AuthRepository(private val mAuth: FirebaseAuth, val realtimeDb: FirebaseDa
                             val nama = result.child("nama").value.toString()
                             val nim = result.child("nim").value.toString().toInt()
                             val kelas = result.child("kelas").value.toString()
-                            val isNew = result.child("new").value.toString()
                             val noHp = result.child("noHp").value.toString()
                             val role = result.child("role").value.toString()
-                            val username = result.child("username").value.toString()
 
                             Log.d("LOGIN TEST", "nama = $nama")
 
@@ -65,10 +61,8 @@ class AuthRepository(private val mAuth: FirebaseAuth, val realtimeDb: FirebaseDa
                                 nama = nama,
                                 nim = nim,
                                 kelas = kelas,
-                                isNew = !isNew.equals("false"),
                                 noHp = noHp,
-                                role = role,
-                                username = username
+                                role = role
                             )
 
                             currentUser.value = user
@@ -82,6 +76,11 @@ class AuthRepository(private val mAuth: FirebaseAuth, val realtimeDb: FirebaseDa
                 }
             }
         return currentUser
+    }
+
+    override fun logout(): Boolean {
+        mAuth.signOut()
+        return true
     }
 
 

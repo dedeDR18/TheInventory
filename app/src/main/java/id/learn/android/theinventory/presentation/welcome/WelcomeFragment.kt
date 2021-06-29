@@ -8,6 +8,7 @@ import android.view.ViewGroup
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
+import com.google.firebase.auth.FirebaseAuth
 import id.learn.android.theinventory.R
 import id.learn.android.theinventory.databinding.FragmentDaftarBinding
 import id.learn.android.theinventory.databinding.FragmentWelcomeBinding
@@ -47,6 +48,12 @@ class WelcomeFragment : Fragment() {
         }
     }
 
+    override fun onStart() {
+        super.onStart()
+        if (FirebaseAuth.getInstance().currentUser != null){
+            navController.navigate(R.id.action_welcomeFragment_to_homeFragment)
+        }
+    }
 
     override fun onResume() {
         super.onResume()
