@@ -6,7 +6,7 @@ import kotlinx.parcelize.Parcelize
 @Parcelize
 data class Barang(
         val idBarang: Int,
-        val jmlStok: Int,
-        val kondisi: String,
-        val type: String
+        val namaBarang:String,
+        val stokBarang: Int,
+        val merkBarang: String
 ): Parcelable

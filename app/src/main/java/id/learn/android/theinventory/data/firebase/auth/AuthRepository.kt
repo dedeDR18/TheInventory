@@ -4,7 +4,11 @@ import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.database.DataSnapshot
+import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ValueEventListener
+import id.learn.android.theinventory.domain.model.Barang
 import id.learn.android.theinventory.domain.model.User
 import id.learn.android.theinventory.domain.repository.IAuthRepository
 import id.learn.android.theinventory.utils.HelperClass.logErrorMessage
@@ -12,7 +16,14 @@ import id.learn.android.theinventory.utils.HelperClass.logErrorMessage
 
 class AuthRepository(private val mAuth: FirebaseAuth, val realtimeDb: FirebaseDatabase) :
     IAuthRepository {
-    override fun createUser(email: String, password: String, nama:String, nim:Int, kelas: String, noHp:String): LiveData<User> {
+    override fun createUser(
+        email: String,
+        password: String,
+        nama: String,
+        nim: Int,
+        kelas: String,
+        noHp: String
+    ): LiveData<User> {
         val newUserMutableLiveData = MutableLiveData<User>()
         mAuth.createUserWithEmailAndPassword(email, password)
             .addOnCompleteListener { taskAuth ->
@@ -81,6 +92,32 @@ class AuthRepository(private val mAuth: FirebaseAuth, val realtimeDb: FirebaseDa
     override fun logout(): Boolean {
         mAuth.signOut()
         return true
+    }
+
+    override fun fetchDataBarang(): LiveData<List<Barang>> {
+        val liveDataListBarang = MutableLiveData<List<Barang>>()
+        realtimeDb.reference.child("DataBarang")
+            .addListenerForSingleValueEvent(object : ValueEventListener {
+                override fun onDataChange(dataSnapshot: DataSnapshot) {
+                    val listBarang = ArrayList<Barang>()
+                    for (snapshot in dataSnapshot.children) {
+                        val barang = Barang(
+                            idBarang = snapshot.key!!.toInt(),
+                            namaBarang = snapshot.child("namaBarang").value.toString(),
+                            stokBarang = snapshot.child("stok").value.toString().toInt(),
+                            merkBarang = snapshot.child("merk").value.toString()
+                        )
+                        listBarang.add(barang)
+                    }
+                    liveDataListBarang.value = listBarang
+                }
+
+                override fun onCancelled(error: DatabaseError) {
+                    logErrorMessage("gagal mengambil data barang")
+                }
+
+            })
+        return liveDataListBarang
     }
 
 

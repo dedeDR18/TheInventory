@@ -7,6 +7,7 @@ import id.learn.android.theinventory.domain.repository.IAuthRepository
 import id.learn.android.theinventory.domain.usecase.Interactor
 import id.learn.android.theinventory.domain.usecase.Usecase
 import id.learn.android.theinventory.presentation.daftar.DaftarViewModel
+import id.learn.android.theinventory.presentation.databarang.DataBarangViewModel
 import id.learn.android.theinventory.presentation.login.LoginViewModel
 import id.learn.android.theinventory.presentation.main.MainViewModel
 import org.koin.android.viewmodel.dsl.viewModel
@@ -25,6 +26,7 @@ val viewModelModule = module {
     viewModel { DaftarViewModel(get()) }
     viewModel { LoginViewModel(get()) }
     viewModel { MainViewModel(get()) }
+    viewModel { DataBarangViewModel(get()) }
 }
 
 private fun provideAuthInstance(): FirebaseAuth {

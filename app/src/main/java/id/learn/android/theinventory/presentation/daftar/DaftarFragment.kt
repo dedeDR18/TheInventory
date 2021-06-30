@@ -149,7 +149,7 @@ class DaftarFragment : Fragment() {
             }
 
             override fun onTextChanged(nim: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                if (nim!!.length > 8){
+                if (nim!!.length != 11){
                     isNimValid = false
                     binding.otfNim.error = "Periksa kembali NIM anda"
                     enableButtonLogin()
@@ -174,7 +174,7 @@ class DaftarFragment : Fragment() {
             }
 
             override fun onTextChanged(kelas: CharSequence?, p1: Int, p2: Int, p3: Int) {
-                if (kelas!!.length > 10){
+                if (kelas!!.length > 3){
                     isKelasValid = false
                     binding.otfKelas.error = "Periksa kembali kelas anda"
                     enableButtonLogin()
