@@ -10,4 +10,5 @@ interface Usecase{
     fun doLogout():Boolean
 
     fun doGetDataBarang(): LiveData<List<Barang>>
+    fun doGetProfile(): LiveData<User>
 }

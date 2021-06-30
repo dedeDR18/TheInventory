@@ -3,31 +3,123 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <data>
+        <import type="android.view.View"/>
+        <variable
+            name="user"
+            type="id.learn.android.theinventory.domain.model.User" />
+
+    </data>
+
 <androidx.constraintlayout.widget.ConstraintLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".presentation.profile.ProfileFragment">
 
-    <TextView
-        android:id="@+id/tv_halaman_profile"
+    <ProgressBar
+        android:visibility="@{user == null  ? View.VISIBLE: View.GONE, default = gone}"
+        android:id="@+id/pb_profile"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="32dp"
-        android:text="Halaman Profile"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+
+
+    <TextView
+        android:visibility="@{user == null  ? View.INVISIBLE: View.VISIBLE, default = invisible}"
+        android:paddingStart="4dp"
+        android:background="@drawable/bg_profile_field"
+        android:id="@+id/tv_name"
+        android:text="@{user.nama}"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="52dp"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:text="Dede Dari Rahmadi" />
+
+
+    <TextView
+        android:visibility="@{user == null  ? View.INVISIBLE: View.VISIBLE, default = invisible}"
+        android:paddingStart="4dp"
+        android:background="@drawable/bg_profile_field"
+        android:id="@+id/tv_nim"
+        android:text="@{String.valueOf(user.nim)}"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_name"
+        tools:text="1919191919" />
+
+    <TextView
+        android:visibility="@{user == null  ? View.INVISIBLE: View.VISIBLE, default = invisible}"
+        android:paddingStart="4dp"
+        android:background="@drawable/bg_profile_field"
+        android:id="@+id/tv_kelas"
+        android:text="@{user.kelas}"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_nim"
+        tools:text="14A" />
+
+    <TextView
+        android:visibility="@{user == null  ? View.INVISIBLE: View.VISIBLE, default = invisible}"
+        android:paddingStart="4dp"
+        android:background="@drawable/bg_profile_field"
+        android:id="@+id/tv_nohp"
+        android:text="@{user.noHp}"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_kelas"
+        tools:text="089606185656" />
+
+    <TextView
+        android:visibility="@{user == null  ? View.INVISIBLE: View.VISIBLE, default = invisible}"
+        android:paddingStart="4dp"
+        android:background="@drawable/bg_profile_field"
+        android:id="@+id/tv_email"
+        android:text="@{user.email}"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="8dp"
+        android:layout_marginEnd="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/tv_nohp"
+        tools:text="dededarirahmadi@gmail.com" />
+
     <com.google.android.material.button.MaterialButton
+        android:visibility="@{user == null  ? View.INVISIBLE: View.VISIBLE, default = invisible}"
         android:id="@+id/btn_ubah_pass"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
-        android:text="ubah pass"
+        android:layout_marginEnd="16dp"
+        android:text="Ganti Password"
         android:textAllCaps="false"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tv_halaman_profile" />
+        app:layout_constraintTop_toBottomOf="@+id/tv_email" />
 </androidx.constraintlayout.widget.ConstraintLayout>
 
 </layout>

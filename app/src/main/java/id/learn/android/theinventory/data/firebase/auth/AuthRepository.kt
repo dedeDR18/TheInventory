@@ -33,7 +33,8 @@ class AuthRepository(private val mAuth: FirebaseAuth, val realtimeDb: FirebaseDa
                         nim = nim,
                         noHp = noHp,
                         kelas = kelas,
-                        role = "Mahasiswa"
+                        role = "Mahasiswa",
+                        email = email
                     )
 
                     realtimeDb.getReference("Users")
@@ -73,7 +74,8 @@ class AuthRepository(private val mAuth: FirebaseAuth, val realtimeDb: FirebaseDa
                                 nim = nim,
                                 kelas = kelas,
                                 noHp = noHp,
-                                role = role
+                                role = role,
+                                email = email
                             )
 
                             currentUser.value = user
@@ -118,6 +120,30 @@ class AuthRepository(private val mAuth: FirebaseAuth, val realtimeDb: FirebaseDa
 
             })
         return liveDataListBarang
+    }
+
+    override fun fetchUserProfile(): LiveData<User> {
+        val userProfile = MutableLiveData<User>()
+        realtimeDb.reference.child("Users").child(mAuth.currentUser!!.uid)
+            .addListenerForSingleValueEvent(object : ValueEventListener{
+                override fun onDataChange(snapshot: DataSnapshot) {
+                    val user = User(
+                        nama = snapshot.child("nama").value.toString(),
+                        nim = snapshot.child("nim").value.toString().toInt(),
+                        kelas = snapshot.child("kelas").value.toString(),
+                        noHp = snapshot.child("noHp").value.toString(),
+                        role = snapshot.child("nama").value.toString(),
+                        email = snapshot.child("email").value.toString()
+                    )
+                    userProfile.value = user
+                }
+
+                override fun onCancelled(error: DatabaseError) {
+                    logErrorMessage("gagal mengambil data profile user")
+                }
+
+            })
+        return userProfile
     }
 
 

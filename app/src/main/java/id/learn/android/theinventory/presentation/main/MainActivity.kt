@@ -6,6 +6,7 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import androidx.lifecycle.Observer
 import androidx.navigation.NavController
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
@@ -14,6 +15,7 @@ import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import id.learn.android.theinventory.R
 import id.learn.android.theinventory.databinding.ActivityMainBinding
+import id.learn.android.theinventory.domain.model.User
 import org.koin.android.viewmodel.ext.android.viewModel
 
 class MainActivity : AppCompatActivity() {
@@ -33,6 +35,7 @@ class MainActivity : AppCompatActivity() {
 
         //init navController
         navController = findNavController(R.id.nav_host_fragment)
+
 
         //changeToolbarTitle()
 
@@ -107,10 +110,9 @@ class MainActivity : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when(item.itemId){
             R.id.menu_profile -> {
-                Toast.makeText(this, "click profile", Toast.LENGTH_SHORT).show()
+                navController.navigate(R.id.profileFragment)
             }
             R.id.menu_logout -> {
-                Toast.makeText(this, "click logout", Toast.LENGTH_SHORT).show()
                 vm.logout()
                 navController.popBackStack()
             }

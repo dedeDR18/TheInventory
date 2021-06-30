@@ -10,5 +10,6 @@ class Interactor (private val repository: IAuthRepository): Usecase{
     override fun doLogin(email: String, password: String) = repository.login(email,password)
     override fun doLogout() = repository.logout()
     override fun doGetDataBarang() = repository.fetchDataBarang()
+    override fun doGetProfile() = repository.fetchUserProfile()
 
 }

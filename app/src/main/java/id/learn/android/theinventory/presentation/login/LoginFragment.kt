@@ -13,6 +13,7 @@ import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
@@ -20,6 +21,7 @@ import com.google.firebase.auth.FirebaseAuth
 import id.learn.android.theinventory.R
 import id.learn.android.theinventory.databinding.FragmentLoginBinding
 import id.learn.android.theinventory.presentation.main.MainActivity
+import id.learn.android.theinventory.presentation.main.MainViewModel
 import org.koin.android.viewmodel.ext.android.viewModel
 
 
@@ -58,6 +60,7 @@ class LoginFragment : Fragment() {
             //
             val email = binding.otfEmail.editText!!.text.toString()
             val password = binding.otfPassword.editText!!.text.toString()
+            binding.pbLogin.visibility = View.VISIBLE
             binding.otfEmail.clearFocus()
             binding.otfPassword.clearFocus()
 
@@ -65,8 +68,10 @@ class LoginFragment : Fragment() {
             vm.login(email, password)
             vm.currentUser!!.observe(viewLifecycleOwner, Observer { currentUser ->
                 if (currentUser != null) {
+                    binding.pbLogin.visibility = View.GONE
                     navController.navigate(R.id.action_loginFragment_to_homeFragment)
                 } else {
+                    binding.pbLogin.visibility = View.GONE
                     Toast.makeText(requireActivity(), "Login gagal...", Toast.LENGTH_SHORT)
                         .show()
                 }

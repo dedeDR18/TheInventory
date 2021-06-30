@@ -13,4 +13,5 @@ interface IAuthRepository {
     fun login(email: String, password: String): LiveData<User>
     fun logout():Boolean
     fun fetchDataBarang(): LiveData<List<Barang>>
+    fun fetchUserProfile(): LiveData<User>
 }
