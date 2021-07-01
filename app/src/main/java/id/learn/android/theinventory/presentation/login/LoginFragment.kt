@@ -15,6 +15,7 @@ import androidx.core.widget.addTextChangedListener
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import com.google.firebase.auth.FirebaseAuth
@@ -22,6 +23,8 @@ import id.learn.android.theinventory.R
 import id.learn.android.theinventory.databinding.FragmentLoginBinding
 import id.learn.android.theinventory.presentation.main.MainActivity
 import id.learn.android.theinventory.presentation.main.MainViewModel
+import id.learn.android.theinventory.utils.UserManager
+import kotlinx.coroutines.launch
 import org.koin.android.viewmodel.ext.android.viewModel
 
 
@@ -31,6 +34,7 @@ class LoginFragment : Fragment() {
     private val binding get() = _binding!!
     private lateinit var navController: NavController
     private val vm: LoginViewModel by viewModel()
+    private val vmMain: MainViewModel by activityViewModels()
     private var isEmailValid = false
     private var isPasswordValid = false
 
@@ -54,6 +58,8 @@ class LoginFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         navController = Navigation.findNavController(view)
 
+
+
         loginValidation()
 
         binding.btnLogin.setOnClickListener {
@@ -69,6 +75,10 @@ class LoginFragment : Fragment() {
             vm.currentUser!!.observe(viewLifecycleOwner, Observer { currentUser ->
                 if (currentUser != null) {
                     binding.pbLogin.visibility = View.GONE
+                    vmMain.setUser(currentUser)
+//                    (activity as MainActivity).saveUserRole(currentUser.role)
+//                    (activity as MainActivity).updateUserRole()
+
                     navController.navigate(R.id.action_loginFragment_to_homeFragment)
                 } else {
                     binding.pbLogin.visibility = View.GONE
