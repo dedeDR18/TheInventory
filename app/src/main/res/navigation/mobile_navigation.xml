@@ -82,11 +82,12 @@
         >
         <action
             android:id="@+id/action_isiDataPeminjamanFragment_to_listBarangFragment"
-            app:destination="@id/listBarangFragment" />
+            app:destination="@id/listBarangFragment"
+            />
     </fragment>
     <fragment
         android:id="@+id/listBarangFragment"
-        android:name="id.learn.android.theinventory.presentation.peminjaman.pilihbarang.ListBarangFragment"
+        android:name="id.learn.android.theinventory.presentation.peminjaman.pilihbarang.PilihBarangFragment"
         android:label="List Barang"
         tools:layout="@layout/fragment_list_barang"
         />

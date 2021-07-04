@@ -10,6 +10,9 @@ import id.learn.android.theinventory.presentation.daftar.DaftarViewModel
 import id.learn.android.theinventory.presentation.databarang.DataBarangViewModel
 import id.learn.android.theinventory.presentation.login.LoginViewModel
 import id.learn.android.theinventory.presentation.main.MainViewModel
+import id.learn.android.theinventory.presentation.peminjaman.pilihbarang.ListChosenViewModel
+import id.learn.android.theinventory.presentation.peminjaman.pilihbarang.PilihBarangViewModel
+import id.learn.android.theinventory.presentation.peminjaman.status.listpinjaman.StatusPeminjamanViewModel
 import id.learn.android.theinventory.presentation.profile.ProfileViewModel
 import org.koin.android.viewmodel.dsl.viewModel
 import org.koin.dsl.module
@@ -29,6 +32,9 @@ val viewModelModule = module {
     viewModel { MainViewModel(get()) }
     viewModel { DataBarangViewModel(get()) }
     viewModel { ProfileViewModel(get()) }
+    viewModel { PilihBarangViewModel(get()) }
+    viewModel { ListChosenViewModel() }
+    viewModel { StatusPeminjamanViewModel(get()) }
 }
 
 private fun provideAuthInstance(): FirebaseAuth {

@@ -7,9 +7,12 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
+import androidx.recyclerview.widget.LinearLayoutManager
 import id.learn.android.theinventory.R
 import id.learn.android.theinventory.databinding.FragmentListStatusPeminjamanBinding
 import id.learn.android.theinventory.databinding.FragmentWelcomeBinding
+import id.learn.android.theinventory.presentation.peminjaman.pilihbarang.PilihBarangAdapter
+import org.koin.android.viewmodel.ext.android.viewModel
 
 
 class ListStatusPeminjamanFragment : Fragment() {
@@ -17,6 +20,8 @@ class ListStatusPeminjamanFragment : Fragment() {
     private var _binding: FragmentListStatusPeminjamanBinding? = null
     private val binding get() = _binding!!
     private lateinit var navController: NavController
+    private val vm: StatusPeminjamanViewModel by viewModel()
+    private lateinit var statusPeminjamanAdapter: StatusPeminjamanAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,9 +43,22 @@ class ListStatusPeminjamanFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
         navController = Navigation.findNavController(view)
 
-        binding.btnToDetail.setOnClickListener {
+        initRv()
+
+        onItemClick()
+    }
+
+    private fun onItemClick(){
+        statusPeminjamanAdapter.onItemClick = {
             navController.navigate(R.id.action_listStatusPeminjamanFragment_to_detailStatusPeminjamanFragment)
         }
+    }
+
+    fun initRv() = binding.rvStatusPeminjaman.apply {
+        statusPeminjamanAdapter = StatusPeminjamanAdapter()
+
+       layoutManager = LinearLayoutManager(requireActivity())
+        adapter = statusPeminjamanAdapter
     }
 
     override fun onDestroy() {
