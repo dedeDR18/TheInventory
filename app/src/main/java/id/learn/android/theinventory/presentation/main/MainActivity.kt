@@ -55,29 +55,16 @@ class MainActivity : AppCompatActivity() {
 
         vm.user.observe(this, Observer {
             userRole = it.role
+            setMenuBottomView()
+            setAppbarSetting()
             invalidateOptionsMenu()
             saveUserRole(it.role)
         })
 
+        setAppbarSetting()
 
-        appBarConfiguration = AppBarConfiguration(
-            setOf(
-                R.id.homeFragment,
-                R.id.dataBarangFragment,
-                if (userRole.equals("Admin")) R.id.peminjamanAdminFragment else R.id.peminjamanFragment,
-                R.id.historyFragment
-            )
-        )
-        setupActionBarWithNavController(navController, appBarConfiguration)
-        binding.navView.setupWithNavController(navController)
 
-        if (userRole.equals("Admin")){
-            binding.navView.menu.findItem(R.id.peminjamanAdminFragment).isVisible = true
-            binding.navView.menu.findItem(R.id.peminjamanFragment).isVisible = false
-        } else {
-            binding.navView.menu.findItem(R.id.peminjamanAdminFragment).isVisible = false
-            binding.navView.menu.findItem(R.id.peminjamanFragment).isVisible = true
-        }
+        setMenuBottomView()
 
     }
 
@@ -88,9 +75,33 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    private fun setAppbarSetting(){
+        appBarConfiguration = AppBarConfiguration(
+            setOf(
+                R.id.homeFragment,
+                R.id.dataBarangFragment,
+                if (userRole.equals("Admin")) R.id.peminjamanAdminFragment else R.id.peminjamanFragment,
+                R.id.historyFragment
+            )
+        )
+        setupActionBarWithNavController(navController, appBarConfiguration)
+        binding.navView.setupWithNavController(navController)
+    }
+
+
     fun updateUserRole() {
         lifecycleScope.launch {
             userRole = userManager.userRole.first()
+        }
+    }
+
+    private fun setMenuBottomView(){
+        if (userRole.equals("Admin")){
+            binding.navView.menu.findItem(R.id.peminjamanAdminFragment).isVisible = true
+            binding.navView.menu.findItem(R.id.peminjamanFragment).isVisible = false
+        } else {
+            binding.navView.menu.findItem(R.id.peminjamanAdminFragment).isVisible = false
+            binding.navView.menu.findItem(R.id.peminjamanFragment).isVisible = true
         }
     }
 
