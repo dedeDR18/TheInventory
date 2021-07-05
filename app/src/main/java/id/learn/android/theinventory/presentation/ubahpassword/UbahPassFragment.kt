@@ -3,6 +3,7 @@ package id.learn.android.theinventory.presentation.ubahpassword
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
+import android.view.Menu
 import android.view.View
 import android.view.ViewGroup
 import androidx.navigation.NavController
@@ -20,7 +21,7 @@ class UbahPassFragment : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
+        setHasOptionsMenu(true)
     }
 
     override fun onCreateView(
@@ -40,6 +41,11 @@ class UbahPassFragment : Fragment() {
         binding.btnSimpan.setOnClickListener {
             navController.popBackStack()
         }
+    }
+
+    override fun onPrepareOptionsMenu(menu: Menu) {
+        super.onPrepareOptionsMenu(menu)
+        menu.clear()
     }
 
     override fun onDestroy() {

@@ -4,10 +4,12 @@ import android.app.DatePickerDialog
 import android.os.Bundle
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.Menu
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import android.widget.Toast
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.lifecycle.Observer
@@ -15,7 +17,10 @@ import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import id.learn.android.theinventory.R
 import id.learn.android.theinventory.databinding.FragmentIsiDataPeminjamanBinding
+import id.learn.android.theinventory.domain.model.Peminjaman
 import id.learn.android.theinventory.presentation.peminjaman.pilihbarang.ListChosenViewModel
+import org.koin.android.viewmodel.ext.android.viewModel
+import java.text.DateFormat
 import java.text.SimpleDateFormat
 import java.util.*
 
@@ -26,11 +31,12 @@ class IsiDataPeminjamanFragment : Fragment() {
     private val binding get() = _binding!!
     private lateinit var navController: NavController
     private val listChosenViewModel: ListChosenViewModel by activityViewModels()
+    private val vm:IsiDataPeminjamanViewModel by viewModel()
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
+        setHasOptionsMenu(true)
     }
 
     override fun onCreateView(
@@ -47,20 +53,24 @@ class IsiDataPeminjamanFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         navController = Navigation.findNavController(view)
+        val calendar = Calendar.getInstance(TimeZone.getTimeZone("GMT+7:00"))
 
         binding.btnPilihBarang.setOnClickListener {
             navController.navigate(R.id.action_isiDataPeminjamanFragment_to_listBarangFragment)
         }
 
+
         binding.btnKirim.setOnClickListener {
-            checkAllField()
+            checkAllField(calendar)
+
+
         }
 
         binding.btnReset.setOnClickListener {
             resetField()
         }
 
-        val calendar = Calendar.getInstance()
+
 
 
         binding.btnTanggalPinjam.setOnClickListener {
@@ -84,6 +94,22 @@ class IsiDataPeminjamanFragment : Fragment() {
         }
 
         observePilihanBarang()
+
+    }
+
+    private fun observeSuccessSubmitPeminjaman(){
+        vm.success?.observe(viewLifecycleOwner, Observer {
+            it?.let{ success ->
+                if (success) {
+                    binding.pbIsidatapeminjaman.isVisible = false
+                    Toast.makeText(requireActivity(), "Data anda sudah disimpan silahkan tunggu konfirmasi", Toast.LENGTH_SHORT).show()
+                } else {
+                    resetField()
+                    binding.pbIsidatapeminjaman.isVisible = false
+                    Toast.makeText(requireActivity(), "gagal menyimpan permintaan", Toast.LENGTH_SHORT).show()
+                }
+            }
+        })
     }
 
     private fun observePilihanBarang() {
@@ -97,7 +123,7 @@ class IsiDataPeminjamanFragment : Fragment() {
         })
     }
 
-    private fun checkAllField(){
+    private fun checkAllField(calendar: Calendar){
         val nama = binding.otfFullname.editText!!.text.toString().isNotEmpty()
         val nim = binding.otfNim.editText!!.text.toString().isNotEmpty()
         val barang = binding.tvBarangDipinjam.text.toString().isNotEmpty()
@@ -105,7 +131,27 @@ class IsiDataPeminjamanFragment : Fragment() {
         val tglKembali = binding.tvTanggalPengembalian.text.toString().isNotEmpty()
 
         if (nama && nim && barang && tglKembali && tglPinjam){
-            Toast.makeText(requireActivity(), "Berhasil simpan", Toast.LENGTH_SHORT).show()
+            binding.pbIsidatapeminjaman.isVisible = true
+
+            val nim = binding.otfNim.editText!!.text.toString().toLong()
+            val tanggalPeminjaman = binding.tvTanggalPeminjaman.text.toString()
+            val barang = binding.tvBarangDipinjam.text.toString()
+            val tglKembali = binding.tvTanggalPengembalian.text.toString()
+            val nama =  binding.otfFullname.editText!!.text.toString()
+
+
+            val dataPeminjaman = Peminjaman(
+                idPeminjaman = setIdPeminjaman(calendar, tanggalPeminjaman, nim),
+                idMahasiswaPeminjam = nim,
+                namaPeminjam = nama,
+                barang = barang,
+                tanggalPeminjaman = tanggalPeminjaman,
+                tanggalPengembalian = tglKembali,
+                status = "Sedang Diproses"
+            )
+
+            vm.sendFormPeminjaman(dataPeminjaman)
+            observeSuccessSubmitPeminjaman()
         } else {
             Toast.makeText(requireActivity(), "Mohon untuk melengkapi data...", Toast.LENGTH_SHORT).show()
         }
@@ -135,6 +181,21 @@ class IsiDataPeminjamanFragment : Fragment() {
         binding.tvBarangDipinjam.text = ""
     }
 
+    private fun setIdPeminjaman(cal: Calendar, tanggalPeminjaman:String, nim:Long):String{
+        val currentLocalTime: Date = cal.getTime()
+        val date: DateFormat = SimpleDateFormat("HH:mm")
+        date.setTimeZone(TimeZone.getTimeZone("GMT+7:00"))
+
+        val time: String = date.format(currentLocalTime).replace(":", "")
+
+        val tgl = tanggalPeminjaman.replace("-", "")
+        return nim.toString() + tgl + time
+    }
+
+    override fun onPrepareOptionsMenu(menu: Menu) {
+        super.onPrepareOptionsMenu(menu)
+        menu.clear()
+    }
 
     override fun onDestroy() {
         super.onDestroy()

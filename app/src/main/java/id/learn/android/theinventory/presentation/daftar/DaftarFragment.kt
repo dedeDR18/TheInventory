@@ -80,7 +80,7 @@ class DaftarFragment : Fragment() {
             val password = binding.otfPassword.editText!!.text.toString()
             val nama = binding.otfFullname.editText!!.text.toString()
             val kelas = binding.otfKelas.editText!!.text.toString()
-            val nim = binding.otfNim.editText!!.text.toString().toInt()
+            val nim = binding.otfNim.editText!!.text.toString().toLong()
             val noHp = if(binding.otfNohp.editText!!.text.toString().isEmpty()) "-" else binding.otfNohp.editText!!.text.toString()
             binding.pbDaftar.visibility = View.VISIBLE
             clearFocusTextField()

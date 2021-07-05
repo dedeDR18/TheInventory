@@ -123,4 +123,19 @@
         android:label="Ubah Password"
         tools:layout="@layout/fragment_ubah_pass"
         />
+    <fragment
+        tools:layout="@layout/fragment_peminjaman_admin"
+        android:id="@+id/peminjamanAdminFragment"
+        android:name="id.learn.android.theinventory.presentation.admin.peminjaman.PeminjamanAdminFragment"
+        android:label="Peminjaman" >
+        <action
+            android:id="@+id/action_peminjamanAdminFragment_to_detailPeminjamanAdminFragment"
+            app:destination="@id/detailPeminjamanAdminFragment" />
+    </fragment>
+    <fragment
+        tools:layout="@layout/fragment_detail_peminjaman_admin"
+        android:label="Detail Peminjaman"
+        android:id="@+id/detailPeminjamanAdminFragment"
+        android:name="id.learn.android.theinventory.presentation.admin.peminjaman.detail.DetailPeminjamanAdminFragment"
+         />
 </navigation>

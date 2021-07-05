@@ -1,6 +1,7 @@
 package id.learn.android.theinventory.presentation.main
 
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
@@ -16,8 +17,10 @@ import androidx.navigation.ui.setupWithNavController
 import id.learn.android.theinventory.R
 import id.learn.android.theinventory.databinding.ActivityMainBinding
 import id.learn.android.theinventory.utils.UserManager
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import org.koin.android.viewmodel.ext.android.viewModel
 
 class MainActivity : AppCompatActivity() {
@@ -28,6 +31,7 @@ class MainActivity : AppCompatActivity() {
     private val vm: MainViewModel by viewModel()
     private lateinit var userManager: UserManager
     var userRole: String? = null
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,8 +46,11 @@ class MainActivity : AppCompatActivity() {
 
         userManager = UserManager(this)
 
-        lifecycleScope.launch {
-            userRole = userManager.userRole.first()
+        runBlocking {
+            launch(context = Dispatchers.Default) {
+                userRole = userManager.userRole.first()
+                Log.d("TAG", "role akun = $userRole")
+            }
         }
 
         vm.user.observe(this, Observer {
@@ -52,16 +59,26 @@ class MainActivity : AppCompatActivity() {
             saveUserRole(it.role)
         })
 
+
         appBarConfiguration = AppBarConfiguration(
             setOf(
                 R.id.homeFragment,
                 R.id.dataBarangFragment,
-                R.id.peminjamanFragment,
+                if (userRole.equals("Admin")) R.id.peminjamanAdminFragment else R.id.peminjamanFragment,
                 R.id.historyFragment
             )
         )
         setupActionBarWithNavController(navController, appBarConfiguration)
         binding.navView.setupWithNavController(navController)
+
+        if (userRole.equals("Admin")){
+            binding.navView.menu.findItem(R.id.peminjamanAdminFragment).isVisible = true
+            binding.navView.menu.findItem(R.id.peminjamanFragment).isVisible = false
+        } else {
+            binding.navView.menu.findItem(R.id.peminjamanAdminFragment).isVisible = false
+            binding.navView.menu.findItem(R.id.peminjamanFragment).isVisible = true
+        }
+
     }
 
 

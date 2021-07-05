@@ -82,7 +82,7 @@ class LoginFragment : Fragment() {
                     navController.navigate(R.id.action_loginFragment_to_homeFragment)
                 } else {
                     binding.pbLogin.visibility = View.GONE
-                    Toast.makeText(requireActivity(), "Login gagal...", Toast.LENGTH_SHORT)
+                    Toast.makeText(requireActivity(), "Login gagal, periksa kembali email & password anda...", Toast.LENGTH_LONG)
                         .show()
                 }
             })

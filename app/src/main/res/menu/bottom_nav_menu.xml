@@ -20,8 +20,15 @@
         />
 
     <item
+        android:id="@+id/peminjamanAdminFragment"
+        android:icon="@drawable/ic_peminjaman"
+        android:title="Peminjaman"/>
+
+    <item
         android:id="@+id/historyFragment"
         android:icon="@drawable/ic_history"
         android:title="History"
         />
+
+
 </menu>

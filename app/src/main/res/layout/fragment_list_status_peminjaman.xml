@@ -6,6 +6,8 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
         tools:context=".presentation.peminjaman.status.listpinjaman.ListStatusPeminjamanFragment">
 
         <!-- TODO: Update blank fragment layout -->
@@ -24,7 +26,18 @@
             android:layout_width="match_parent"
             android:layout_height="0dp"
             android:layout_marginTop="8dp"
+            tools:listitem="@layout/item_peminjaman"
             app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView" />
+
+        <ProgressBar
+            android:visibility="gone"
+            android:id="@+id/pb_listStatusPeminjaman"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

@@ -10,7 +10,7 @@ class DaftarViewModel(private val usecase: Usecase): ViewModel(){
 //    var authenticatedUserLiveData: LiveData<User>? = null
     var createdUserLiveData: LiveData<User>? = null
 
-    fun createUser(email:String, password:String, nama:String, nim:Int, kelas: String, noHp:String){
+    fun createUser(email:String, password:String, nama:String, nim:Long, kelas: String, noHp:String){
         createdUserLiveData = usecase.doCreateUser(email,password,nama,nim,kelas,noHp)
     }
 }

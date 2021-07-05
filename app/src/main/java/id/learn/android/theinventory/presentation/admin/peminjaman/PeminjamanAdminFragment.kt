@@ -1,11 +1,11 @@
-package id.learn.android.theinventory.presentation.peminjaman.status.listpinjaman
+package id.learn.android.theinventory.presentation.admin.peminjaman
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
-import android.view.Menu
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.os.bundleOf
 import androidx.core.view.isVisible
 import androidx.lifecycle.Observer
@@ -14,23 +14,22 @@ import androidx.navigation.Navigation
 import androidx.recyclerview.widget.DividerItemDecoration
 import androidx.recyclerview.widget.LinearLayoutManager
 import id.learn.android.theinventory.R
-import id.learn.android.theinventory.databinding.FragmentListStatusPeminjamanBinding
-import id.learn.android.theinventory.databinding.FragmentWelcomeBinding
-import id.learn.android.theinventory.presentation.peminjaman.pilihbarang.PilihBarangAdapter
+import id.learn.android.theinventory.databinding.FragmentPeminjamanAdminBinding
+import id.learn.android.theinventory.presentation.main.MainActivity
 import org.koin.android.viewmodel.ext.android.viewModel
 
 
-class ListStatusPeminjamanFragment : Fragment() {
+class PeminjamanAdminFragment : Fragment() {
 
-    private var _binding: FragmentListStatusPeminjamanBinding? = null
+    private var _binding: FragmentPeminjamanAdminBinding? = null
     private val binding get() = _binding!!
     private lateinit var navController: NavController
-    private val vm: StatusPeminjamanViewModel by viewModel()
-    private lateinit var statusPeminjamanAdapter: StatusPeminjamanAdapter
+    private val vm: PeminjamanAdminViewModel by viewModel()
+    private lateinit var peminjamanAdminAdapter: PeminjamanAdminAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setHasOptionsMenu(true)
+
     }
 
     override fun onCreateView(
@@ -38,9 +37,10 @@ class ListStatusPeminjamanFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        _binding = FragmentListStatusPeminjamanBinding.inflate(inflater, container, false)
+        _binding = FragmentPeminjamanAdminBinding.inflate(inflater, container, false)
         val view = binding.root
         return view
+
 
     }
 
@@ -50,45 +50,50 @@ class ListStatusPeminjamanFragment : Fragment() {
 
         initRv()
 
-        binding.pbListStatusPeminjaman.isVisible = true
+        binding.pbPeminjamanAdmin.isVisible = true
         vm.getListPeminjaman()
         vm.listPeminjaman?.observe(viewLifecycleOwner, Observer {
             it?.let { listPeminjaman ->
-                binding.pbListStatusPeminjaman.isVisible = false
-                statusPeminjamanAdapter.setData(listPeminjaman)
+                binding.pbPeminjamanAdmin.isVisible = false
+                peminjamanAdminAdapter.setData(listPeminjaman)
             }
         })
 
         onItemClick()
     }
 
-
     private fun onItemClick(){
 
-        statusPeminjamanAdapter.onItemClick = { data ->
+        peminjamanAdminAdapter.onItemClick = { data ->
             val bundle = bundleOf(
                 "dataPeminjaman" to data
             )
-            navController.navigate(R.id.action_listStatusPeminjamanFragment_to_detailStatusPeminjamanFragment, bundle)
+            navController.navigate(R.id.action_peminjamanAdminFragment_to_detailPeminjamanAdminFragment, bundle)
         }
     }
 
-    fun initRv() = binding.rvStatusPeminjaman.apply {
-        statusPeminjamanAdapter = StatusPeminjamanAdapter()
+    fun initRv() = binding.rvPemijamanAdmin.apply {
+        peminjamanAdminAdapter = PeminjamanAdminAdapter()
 
-       layoutManager = LinearLayoutManager(requireActivity())
+        layoutManager = LinearLayoutManager(requireActivity())
 
         val divider = DividerItemDecoration(
             requireActivity(),
             (layoutManager as LinearLayoutManager).orientation
         )
         addItemDecoration(divider)
-        adapter = statusPeminjamanAdapter
+        adapter = peminjamanAdminAdapter
     }
 
-    override fun onPrepareOptionsMenu(menu: Menu) {
-        super.onPrepareOptionsMenu(menu)
-        menu.clear()
+    override fun onResume() {
+        super.onResume()
+        (activity as AppCompatActivity).supportActionBar?.show()
+        (activity as MainActivity).setBottomNavViewVisibility(true)
+    }
+
+    override fun onStop() {
+        super.onStop()
+        (activity as AppCompatActivity).supportActionBar?.show()
     }
 
     override fun onDestroy() {

@@ -1,4 +1,4 @@
-package id.learn.android.theinventory.presentation.profile
+package id.learn.android.theinventory.presentation.admin.peminjaman.detail
 
 import android.os.Bundle
 import androidx.fragment.app.Fragment
@@ -6,28 +6,29 @@ import android.view.LayoutInflater
 import android.view.Menu
 import android.view.View
 import android.view.ViewGroup
-import androidx.fragment.app.activityViewModels
-import androidx.lifecycle.Observer
+import android.widget.ArrayAdapter
+import android.widget.AutoCompleteTextView
 import androidx.navigation.NavController
 import androidx.navigation.Navigation
 import id.learn.android.theinventory.R
-import id.learn.android.theinventory.databinding.FragmentProfileBinding
-import id.learn.android.theinventory.databinding.FragmentWelcomeBinding
-import id.learn.android.theinventory.presentation.login.LoginViewModel
-import id.learn.android.theinventory.presentation.main.MainActivity
-import org.koin.android.viewmodel.ext.android.viewModel
+import id.learn.android.theinventory.databinding.FragmentDetailPeminjamanAdminBinding
+import id.learn.android.theinventory.databinding.FragmentDetailStatusPeminjamanBinding
+import id.learn.android.theinventory.databinding.FragmentPeminjamanAdminBinding
+import id.learn.android.theinventory.domain.model.Peminjaman
 
 
-class ProfileFragment : Fragment() {
+class DetailPeminjamanAdminFragment : Fragment() {
 
-    private var _binding: FragmentProfileBinding? = null
+    private var _binding: FragmentDetailPeminjamanAdminBinding? = null
     private val binding get() = _binding!!
     private lateinit var navController: NavController
-    private val vm:ProfileViewModel by viewModel()
+    var dataPeminjaman: Peminjaman? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setHasOptionsMenu(true)
+        arguments?.let { bundle ->
+            dataPeminjaman = bundle.getParcelable("dataPeminjaman")
+        }
     }
 
     override fun onCreateView(
@@ -35,25 +36,20 @@ class ProfileFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         // Inflate the layout for this fragment
-        _binding = FragmentProfileBinding.inflate(inflater, container, false)
+        _binding = FragmentDetailPeminjamanAdminBinding.inflate(inflater, container, false)
         val view = binding.root
         return view
-
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         navController = Navigation.findNavController(view)
 
+        val items = listOf("sedang diproses", "disetujui")
+        val adapter = ArrayAdapter(requireContext(), R.layout.item_list_status, items)
+        (binding.statusPeminjaman.editText as? AutoCompleteTextView)?.setAdapter(adapter)
 
-        vm.setUserProfile()
-        vm.userProfile.observe(viewLifecycleOwner, Observer { profile ->
-            binding.user = profile
-        })
-
-        binding.btnUbahPass.setOnClickListener {
-            navController.navigate(R.id.action_profileFragment_to_ubahPassFragment)
-        }
+        binding.peminjaman = dataPeminjaman
     }
 
     override fun onPrepareOptionsMenu(menu: Menu) {
@@ -65,4 +61,6 @@ class ProfileFragment : Fragment() {
         super.onDestroy()
         _binding = null
     }
+
+
 }

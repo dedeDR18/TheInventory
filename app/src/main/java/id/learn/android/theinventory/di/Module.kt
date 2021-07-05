@@ -6,10 +6,13 @@ import id.learn.android.theinventory.data.firebase.auth.AuthRepository
 import id.learn.android.theinventory.domain.repository.IAuthRepository
 import id.learn.android.theinventory.domain.usecase.Interactor
 import id.learn.android.theinventory.domain.usecase.Usecase
+import id.learn.android.theinventory.presentation.admin.peminjaman.PeminjamanAdminViewModel
+import id.learn.android.theinventory.presentation.admin.peminjaman.detail.DetailPeminjamanAdminViewModel
 import id.learn.android.theinventory.presentation.daftar.DaftarViewModel
 import id.learn.android.theinventory.presentation.databarang.DataBarangViewModel
 import id.learn.android.theinventory.presentation.login.LoginViewModel
 import id.learn.android.theinventory.presentation.main.MainViewModel
+import id.learn.android.theinventory.presentation.peminjaman.detail.IsiDataPeminjamanViewModel
 import id.learn.android.theinventory.presentation.peminjaman.pilihbarang.ListChosenViewModel
 import id.learn.android.theinventory.presentation.peminjaman.pilihbarang.PilihBarangViewModel
 import id.learn.android.theinventory.presentation.peminjaman.status.listpinjaman.StatusPeminjamanViewModel
@@ -35,6 +38,9 @@ val viewModelModule = module {
     viewModel { PilihBarangViewModel(get()) }
     viewModel { ListChosenViewModel() }
     viewModel { StatusPeminjamanViewModel(get()) }
+    viewModel { IsiDataPeminjamanViewModel(get()) }
+    viewModel { PeminjamanAdminViewModel(get()) }
+    viewModel { DetailPeminjamanAdminViewModel(get()) }
 }
 
 private fun provideAuthInstance(): FirebaseAuth {
@@ -44,20 +50,3 @@ private fun provideAuthInstance(): FirebaseAuth {
 private fun provideRealtimeDbInstance(): FirebaseDatabase {
     return FirebaseDatabase.getInstance()
 }
-
-//private fun createOkHttpClient(): OkHttpClient {
-//    return OkHttpClient.Builder()
-//        .addInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
-//        .connectTimeout(120, TimeUnit.SECONDS)
-//        .readTimeout(120, TimeUnit.SECONDS)
-//        .build()
-//}
-//
-//private fun createRetrofit(client: OkHttpClient): ApiService {
-//    return Retrofit.Builder()
-//        .baseUrl("BASE_URL")
-//        .addConverterFactory(GsonConverterFactory.create())
-//        .client(client)
-//        .build()
-//        .create(ApiService::class.java)
-//}
