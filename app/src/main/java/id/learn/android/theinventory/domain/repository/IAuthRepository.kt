@@ -10,11 +10,20 @@ import kotlinx.coroutines.flow.Flow
 
 
 interface IAuthRepository {
-    fun createUser(email: String, password: String, nama:String, nim:Long, kelas: String, noHp:String): LiveData<User>
+    fun createUser(
+        email: String,
+        password: String,
+        nama: String,
+        nim: Long,
+        kelas: String,
+        noHp: String
+    ): LiveData<User>
+
     fun login(email: String, password: String): LiveData<User?>
-    fun logout():Boolean
+    fun logout(): Boolean
     fun fetchDataBarang(): LiveData<List<Barang>>
     fun fetchUserProfile(): LiveData<User>
-    fun createPeminjaman(dataPeminjaman: Peminjaman):LiveData<Boolean>
+    fun createPeminjaman(dataPeminjaman: Peminjaman): LiveData<Boolean>
     fun getListPeminjaman(): LiveData<List<Peminjaman>>
+    fun updateStatusPeminjaman(dataPeminjaman: Peminjaman, status:String): LiveData<Boolean>
 }

@@ -17,7 +17,13 @@ class PeminjamanAdminAdapter : RecyclerView.Adapter<PeminjamanAdminAdapter.Statu
 
     fun setData(listData: List<Peminjaman>){
         list.clear()
-        list.addAll(listData)
+        val data = ArrayList<Peminjaman>()
+        listData.forEach {
+            if (it.status.equals("sedang diproses")){
+                data.add(it)
+            }
+        }
+        list.addAll(data)
         notifyDataSetChanged()
     }
 

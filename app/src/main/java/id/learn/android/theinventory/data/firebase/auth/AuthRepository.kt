@@ -155,7 +155,7 @@ class AuthRepository(private val mAuth: FirebaseAuth, val realtimeDb: FirebaseDa
     override fun createPeminjaman(dataPeminjaman: Peminjaman): LiveData<Boolean> {
         val berhasil = MutableLiveData<Boolean>()
         realtimeDb.reference.child("DataPeminjaman")
-        .child(dataPeminjaman.idPeminjaman.toString())
+        .child(dataPeminjaman.idPeminjaman)
             .setValue(dataPeminjaman)
             .addOnCompleteListener { task ->
                 if (task.isSuccessful) {
@@ -195,6 +195,27 @@ class AuthRepository(private val mAuth: FirebaseAuth, val realtimeDb: FirebaseDa
 
             })
         return liveDataListPeminjaman
+    }
+
+    override fun updateStatusPeminjaman(dataPeminjaman: Peminjaman, status:String): LiveData<Boolean> {
+        val berhasil = MutableLiveData<Boolean>()
+        realtimeDb.reference.child("DataPeminjaman").child(dataPeminjaman.idPeminjaman).child("status").setValue(status)
+            .addOnCompleteListener { taskUpdate ->
+                if(taskUpdate.isSuccessful){
+                    berhasil.value = true
+                    realtimeDb.reference.child("DataHistory").child(dataPeminjaman.idPeminjaman).setValue(dataPeminjaman)
+                        .addOnCompleteListener { taskSaveToHistory ->
+                            if (taskSaveToHistory.isSuccessful){
+                                Log.d("TAG", "Berhasil menyimpan ke table history")
+                            } else {
+                                logErrorMessage("gagal menyimpan ke table history")
+                            }
+                        }
+                }else{
+                    berhasil.value = false
+                }
+            }
+        return berhasil
     }
 
 

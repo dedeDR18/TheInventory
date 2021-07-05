@@ -6,9 +6,11 @@ import id.learn.android.theinventory.domain.model.Peminjaman
 import id.learn.android.theinventory.domain.usecase.Usecase
 
 class DetailPeminjamanAdminViewModel (private val usecase: Usecase): ViewModel(){
-    var dataPeminjaman: LiveData<Peminjaman>? = null
+    var result: LiveData<Boolean>? = null
 
-    fun getDetailPeminjaman(){
-        //dataPeminjaman = usecase.doGetListPeminjaman()
+
+
+    fun updateStatusPeminjaman(dataPeminjaman:Peminjaman, status:String){
+        result = usecase.doUpdateStatusPeminjaman(dataPeminjaman, status)
     }
 }
