@@ -148,7 +148,7 @@ class IsiDataPeminjamanFragment : Fragment() {
                 barang = barang,
                 tanggalPeminjaman = tanggalPeminjaman,
                 tanggalPengembalian = tglKembali,
-                status = "Sedang Diproses"
+                status = "sedang diproses"
             )
 
             vm.sendFormPeminjaman(dataPeminjaman)
