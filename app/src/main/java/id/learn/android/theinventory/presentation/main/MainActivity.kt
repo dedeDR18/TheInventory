@@ -1,5 +1,6 @@
 package id.learn.android.theinventory.presentation.main
 
+import android.annotation.SuppressLint
 import android.os.Bundle
 import android.util.Log
 import android.view.Menu
@@ -31,6 +32,7 @@ class MainActivity : AppCompatActivity() {
     private val vm: MainViewModel by viewModel()
     private lateinit var userManager: UserManager
     var userRole: String? = null
+    var userNim: Long? = null
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -49,7 +51,18 @@ class MainActivity : AppCompatActivity() {
         runBlocking {
             launch(context = Dispatchers.Default) {
                 userRole = userManager.userRole.first()
+
                 Log.d("TAG", "role akun = $userRole")
+            }
+        }
+
+        runBlocking {
+            launch(context = Dispatchers.Default) {
+                if (userRole.equals("Admin")) {
+                    userNim = 0
+                } else {
+                    userNim = userManager.userNim.first()
+                }
             }
         }
 
@@ -59,6 +72,8 @@ class MainActivity : AppCompatActivity() {
             setAppbarSetting()
             invalidateOptionsMenu()
             saveUserRole(it.role)
+            userNim = it.nim
+            saveUserNim(it.nim)
         })
 
         setAppbarSetting()
@@ -72,6 +87,12 @@ class MainActivity : AppCompatActivity() {
     fun saveUserRole(value: String) {
         lifecycleScope.launch {
             userManager.saveUserRole(value)
+        }
+    }
+
+    fun saveUserNim(value:Long){
+        lifecycleScope.launch {
+            userManager.saveUserNim(value)
         }
     }
 
@@ -95,11 +116,14 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    @SuppressLint("ResourceType")
     private fun setMenuBottomView(){
         if (userRole.equals("Admin")){
+            //listPeminjamaman
             binding.navView.menu.findItem(R.id.peminjamanAdminFragment).isVisible = true
             binding.navView.menu.findItem(R.id.peminjamanFragment).isVisible = false
         } else {
+            //listPeminjamaman
             binding.navView.menu.findItem(R.id.peminjamanAdminFragment).isVisible = false
             binding.navView.menu.findItem(R.id.peminjamanFragment).isVisible = true
         }

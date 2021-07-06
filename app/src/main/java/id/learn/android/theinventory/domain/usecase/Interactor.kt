@@ -27,4 +27,10 @@ class Interactor(private val repository: IAuthRepository) : Usecase {
     override fun doUpdateStatusPeminjaman(dataPeminjaman: Peminjaman,status:String): LiveData<Boolean> =
         repository.updateStatusPeminjaman(dataPeminjaman,status)
 
+    override fun doGetListHistoryPeminjamanForAdmin(): LiveData<List<Peminjaman>> = repository.getListHistoryPeminjamanForAdmin()
+    override fun doUpdateStatusHistoryAdmin(
+        dataPeminjaman: Peminjaman,
+        status: String
+    ): LiveData<Boolean> = repository.updateStatusHistoryForAdmin(dataPeminjaman, status)
+
 }

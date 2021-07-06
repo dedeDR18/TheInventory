@@ -73,7 +73,11 @@
         android:name="id.learn.android.theinventory.presentation.history.HistoryFragment"
         android:label="History"
         tools:layout="@layout/fragment_history"
-        />
+        >
+        <action
+            android:id="@+id/action_historyFragment_to_detailHistoryAdminFragment"
+            app:destination="@id/detailHistoryAdminFragment" />
+    </fragment>
     <fragment
         android:id="@+id/isiDataPeminjamanFragment"
         android:name="id.learn.android.theinventory.presentation.peminjaman.detail.IsiDataPeminjamanFragment"
@@ -138,4 +142,10 @@
         android:id="@+id/detailPeminjamanAdminFragment"
         android:name="id.learn.android.theinventory.presentation.admin.peminjaman.detail.DetailPeminjamanAdminFragment"
          />
+    <fragment
+        tools:layout="@layout/fragment_detail_history_admin"
+        android:id="@+id/detailHistoryAdminFragment"
+        android:name="id.learn.android.theinventory.presentation.admin.detailhistory.DetailHistoryAdminFragment"
+        android:label="Detail History" />
+
 </navigation>

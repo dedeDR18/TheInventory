@@ -218,5 +218,50 @@ class AuthRepository(private val mAuth: FirebaseAuth, val realtimeDb: FirebaseDa
         return berhasil
     }
 
+    override fun getListHistoryPeminjamanForAdmin(): LiveData<List<Peminjaman>> {
+        val liveDataListHistoryPeminjaman = MutableLiveData<List<Peminjaman>>()
+        realtimeDb.reference.child("DataHistory")
+            .addListenerForSingleValueEvent(object : ValueEventListener {
+                override fun onDataChange(dataSnapshot: DataSnapshot) {
+                    val listHistoryPeminjaman = ArrayList<Peminjaman>()
+                    for (snapshot in dataSnapshot.children) {
+                        val historyPeminjaman = Peminjaman(
+                            idPeminjaman = snapshot.child("idPeminjaman").value.toString(),
+                            idMahasiswaPeminjam = snapshot.child("idMahasiswaPeminjam").value.toString().toLong(),
+                            namaPeminjam = snapshot.child("namaPeminjam").value.toString(),
+                            barang = snapshot.child("barang").value.toString(),
+                            tanggalPeminjaman = snapshot.child("tanggalPeminjaman").value.toString(),
+                            tanggalPengembalian = snapshot.child("tanggalPengembalian").value.toString(),
+                            status = snapshot.child("status").value.toString(),
+                        )
+                        listHistoryPeminjaman.add(historyPeminjaman)
+                    }
+                    liveDataListHistoryPeminjaman.value = listHistoryPeminjaman
+                }
+
+                override fun onCancelled(error: DatabaseError) {
+                    logErrorMessage("gagal mengambil data daftar history peminjaman")
+                }
+
+            })
+        return liveDataListHistoryPeminjaman
+    }
+
+    override fun updateStatusHistoryForAdmin(
+        dataPeminjaman: Peminjaman,
+        status: String
+    ): LiveData<Boolean> {
+        val berhasil = MutableLiveData<Boolean>()
+        realtimeDb.reference.child("DataHistory").child(dataPeminjaman.idPeminjaman).child("status").setValue(status)
+            .addOnCompleteListener { taskUpdate ->
+                if(taskUpdate.isSuccessful){
+                    berhasil.value = true
+                }else{
+                    berhasil.value = false
+                }
+            }
+        return berhasil
+    }
+
 
 }

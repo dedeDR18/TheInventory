@@ -5,6 +5,7 @@ import androidx.datastore.core.DataStore
 import androidx.datastore.dataStore
 import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.edit
+import androidx.datastore.preferences.core.longPreferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
 import kotlinx.coroutines.CoroutineScope
@@ -29,10 +30,21 @@ class UserManager(context: Context) {
         preferences[USER_ROLE]
     }
 
+    val USER_NIM = longPreferencesKey("user_nim")
+    val userNim = dataStore.data.map { preferences ->
+        preferences[USER_NIM]
+    }
+
 
     suspend fun saveUserRole(value:String){
         dataStore.edit { preferencesUserRole ->
             preferencesUserRole[USER_ROLE] = value
+        }
+    }
+
+    suspend fun saveUserNim(value:Long){
+        dataStore.edit { preferencesUserNim ->
+            preferencesUserNim[USER_NIM] = value
         }
     }
 

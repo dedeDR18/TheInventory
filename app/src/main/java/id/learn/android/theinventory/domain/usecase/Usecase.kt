@@ -24,4 +24,6 @@ interface Usecase {
 
     fun doGetListPeminjaman(): LiveData<List<Peminjaman>>
     fun doUpdateStatusPeminjaman(dataPeminjaman: Peminjaman,status:String): LiveData<Boolean>
+    fun doGetListHistoryPeminjamanForAdmin(): LiveData<List<Peminjaman>>
+    fun doUpdateStatusHistoryAdmin(dataPeminjaman: Peminjaman,status:String): LiveData<Boolean>
 }

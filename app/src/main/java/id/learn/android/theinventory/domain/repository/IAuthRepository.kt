@@ -26,4 +26,6 @@ interface IAuthRepository {
     fun createPeminjaman(dataPeminjaman: Peminjaman): LiveData<Boolean>
     fun getListPeminjaman(): LiveData<List<Peminjaman>>
     fun updateStatusPeminjaman(dataPeminjaman: Peminjaman, status:String): LiveData<Boolean>
+    fun getListHistoryPeminjamanForAdmin(): LiveData<List<Peminjaman>>
+    fun updateStatusHistoryForAdmin(dataPeminjaman: Peminjaman, status:String): LiveData<Boolean>
 }

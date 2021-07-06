@@ -6,10 +6,12 @@ import id.learn.android.theinventory.data.firebase.auth.AuthRepository
 import id.learn.android.theinventory.domain.repository.IAuthRepository
 import id.learn.android.theinventory.domain.usecase.Interactor
 import id.learn.android.theinventory.domain.usecase.Usecase
+import id.learn.android.theinventory.presentation.admin.detailhistory.DetailHistoryAdminViewModel
 import id.learn.android.theinventory.presentation.admin.peminjaman.PeminjamanAdminViewModel
 import id.learn.android.theinventory.presentation.admin.peminjaman.detail.DetailPeminjamanAdminViewModel
 import id.learn.android.theinventory.presentation.daftar.DaftarViewModel
 import id.learn.android.theinventory.presentation.databarang.DataBarangViewModel
+import id.learn.android.theinventory.presentation.history.HistoryViewModel
 import id.learn.android.theinventory.presentation.login.LoginViewModel
 import id.learn.android.theinventory.presentation.main.MainViewModel
 import id.learn.android.theinventory.presentation.peminjaman.detail.IsiDataPeminjamanViewModel
@@ -41,6 +43,9 @@ val viewModelModule = module {
     viewModel { IsiDataPeminjamanViewModel(get()) }
     viewModel { PeminjamanAdminViewModel(get()) }
     viewModel { DetailPeminjamanAdminViewModel(get()) }
+    viewModel { HistoryViewModel(get()) }
+    viewModel { DetailHistoryAdminViewModel(get()) }
+
 }
 
 private fun provideAuthInstance(): FirebaseAuth {

@@ -103,6 +103,7 @@ class IsiDataPeminjamanFragment : Fragment() {
                 if (success) {
                     binding.pbIsidatapeminjaman.isVisible = false
                     Toast.makeText(requireActivity(), "Data anda sudah disimpan silahkan tunggu konfirmasi", Toast.LENGTH_SHORT).show()
+                    navController.popBackStack()
                 } else {
                     resetField()
                     binding.pbIsidatapeminjaman.isVisible = false

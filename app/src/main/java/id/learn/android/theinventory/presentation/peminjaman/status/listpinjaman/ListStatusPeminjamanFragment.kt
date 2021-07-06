@@ -16,6 +16,8 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import id.learn.android.theinventory.R
 import id.learn.android.theinventory.databinding.FragmentListStatusPeminjamanBinding
 import id.learn.android.theinventory.databinding.FragmentWelcomeBinding
+import id.learn.android.theinventory.domain.model.Peminjaman
+import id.learn.android.theinventory.presentation.main.MainActivity
 import id.learn.android.theinventory.presentation.peminjaman.pilihbarang.PilihBarangAdapter
 import org.koin.android.viewmodel.ext.android.viewModel
 
@@ -55,7 +57,14 @@ class ListStatusPeminjamanFragment : Fragment() {
         vm.listPeminjaman?.observe(viewLifecycleOwner, Observer {
             it?.let { listPeminjaman ->
                 binding.pbListStatusPeminjaman.isVisible = false
-                statusPeminjamanAdapter.setData(listPeminjaman)
+                val nim = (activity as MainActivity).userNim
+                val list = ArrayList<Peminjaman>()
+                listPeminjaman.forEach { item ->
+                    if (item.idMahasiswaPeminjam.equals(nim)){
+                        list.add(item)
+                    }
+                }
+                statusPeminjamanAdapter.setData(list)
             }
         })
 
